@@ -21,8 +21,8 @@ vim.opt.scrolloff = 10
 
 -- KEYMAPS (mostly stolen from theprimagen or kickstart)
 -- moving through quickfix list
-vim.keymap.set("n", "<M-j>", "<cmd>cnext<CR>")
-vim.keymap.set("n", "<M-k>", "<cmd>cprev<CR>")
+vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>')
+vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>')
 
 -- greatest remap ever
 -- paste over word but keep copied text in buffer instead of deleted word
@@ -79,9 +79,63 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  {                   -- Adds git related signs to the gutter, as well as utilities for managing changes
+  { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
   },
+
+  { -- Useful plugin to show you pending keybinds.
+    'folke/which-key.nvim',
+    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    opts = {
+      icons = {
+        -- set icon mappings to true if you have a Nerd Font
+        mappings = vim.g.have_nerd_font,
+        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+        -- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
+        keys = vim.g.have_nerd_font and {} or {
+          Up = '<Up> ',
+          Down = '<Down> ',
+          Left = '<Left> ',
+          Right = '<Right> ',
+          C = '<C-…> ',
+          M = '<M-…> ',
+          D = '<D-…> ',
+          S = '<S-…> ',
+          CR = '<CR> ',
+          Esc = '<Esc> ',
+          ScrollWheelDown = '<ScrollWheelDown> ',
+          ScrollWheelUp = '<ScrollWheelUp> ',
+          NL = '<NL> ',
+          BS = '<BS> ',
+          Space = '<Space> ',
+          Tab = '<Tab> ',
+          F1 = '<F1>',
+          F2 = '<F2>',
+          F3 = '<F3>',
+          F4 = '<F4>',
+          F5 = '<F5>',
+          F6 = '<F6>',
+          F7 = '<F7>',
+          F8 = '<F8>',
+          F9 = '<F9>',
+          F10 = '<F10>',
+          F11 = '<F11>',
+          F12 = '<F12>',
+        },
+      },
+      -- Document existing key chains
+      spec = {
+        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>t', group = '[T]oggle' },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+      },
+    },
+  },
+
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
@@ -102,7 +156,7 @@ require('lazy').setup({
       { 'MaximilianLloyd/adjacent.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       require('telescope').setup {
@@ -169,7 +223,7 @@ require('lazy').setup({
   },
   {
     'Bilal2453/luvit-meta',
-    lazy = true
+    lazy = true,
   },
   {
     -- Main LSP Configuration
@@ -182,7 +236,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
@@ -225,6 +279,10 @@ require('lazy').setup({
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
           map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+
+          map('<leader>vd', function()
+            vim.diagnostic.open_float()
+          end, '[V]iew [D]iagnostics')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
@@ -332,7 +390,6 @@ require('lazy').setup({
             },
           },
         },
-
       }
 
       -- Ensure the servers and tools above are installed
@@ -548,7 +605,7 @@ require('lazy').setup({
     'folke/todo-comments.nvim',
     event = 'VimEnter',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = { signs = false }
+    opts = { signs = false },
   },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -590,7 +647,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
-      { "nvim-treesitter/nvim-treesitter-context", }
+      { 'nvim-treesitter/nvim-treesitter-context' },
     },
 
     build = ':TSUpdate',
@@ -639,7 +696,7 @@ require('lazy').setup({
         desc = 'Explorer NeoTree (cwd)',
       },
       { '<leader>E', '<leader>fe', desc = 'Explorer NeoTree (Root Dir)', remap = true },
-      { '<leader>e', '<leader>fE', desc = 'Explorer NeoTree (cwd)',      remap = true },
+      { '<leader>e', '<leader>fE', desc = 'Explorer NeoTree (cwd)', remap = true },
       {
         '<leader>ge',
         function()
@@ -737,10 +794,10 @@ require('lazy').setup({
   },
 
   {
-    "mbbill/undotree",
+    'mbbill/undotree',
 
     config = function()
-      vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+      vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
     end,
   },
 
@@ -778,7 +835,6 @@ require('lazy').setup({
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- { import = 'custom.plugins' },
-
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
