@@ -17,7 +17,8 @@ vim.opt.undofile = true
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 8
+vim.opt.wrap = false
 
 -- KEYMAPS (mostly stolen from theprimagen or kickstart)
 -- moving through quickfix list
